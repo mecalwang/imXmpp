@@ -9,8 +9,18 @@ TARGET = vk-xmpp
 TEMPLATE = app
 SOURCES += main.cpp \
     imxmpp.cpp \
-    accounsmanager.cpp
-
+    accounsmanager.cpp \
+    userlist.cpp \
+    chatwindow.cpp \
+    userlistitem.cpp \
+    userlistwidget.cpp \
+    textmessageedit.cpp
 HEADERS += \
     imxmpp.h \
-    accounsmanager.h
+    accounsmanager.h \
+    userlist.h \
+    chatwindow.h \
+    userlistitem.h \
+    userlistwidget.h \
+    textmessageedit.h
+xc
