@@ -1,5 +1,4 @@
 #include "chatwindow.h"
-#include "ui_chatwindow.h"
 
 chatWindow::chatWindow(QString name,QString jid,QWidget *parent) :
     QMainWindow(parent)
