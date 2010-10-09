@@ -11,7 +11,7 @@ class userListWidget : public QWidget
 public:
     explicit userListWidget(QWidget *parent = 0);
     void append(userListItem *);
-    void append(QString, QString);
+    void append(QString bareJid,QString name);
     int findByJid(QString);
     void setStatus(QString jid, int status);
     void setStatusText(QString jid, QString statusText);

@@ -15,15 +15,16 @@ userListWidget::userListWidget(QWidget *parent) :
 void userListWidget::append(userListItem *item){
 
 }
-void userListWidget::append(QString jid,QString name){
+void userListWidget::append(QString bareJid,QString name){
     userListItem *item=new userListItem(this->mainFrame);
-    item->setJid(jid);
+    item->setJid(bareJid);
     item->setName(name);
-    item->setStatus(0);
-    item->setObjectName(jid);
+    item->setStatus(1);
+    item->setObjectName(bareJid);
     //item->show();
     connect(item,SIGNAL(doubleClicked(QString,QString)),this,SLOT(itemDoubleClicked(QString,QString)));
     userListItems.append(item);
+    qDebug("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
     this->redrawList();
 }
 void userListWidget::resizeEvent(QResizeEvent * event){

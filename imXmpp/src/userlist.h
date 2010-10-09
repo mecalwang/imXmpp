@@ -35,13 +35,13 @@ protected:
 
 private:
     bool event(QEvent *e);
-    bool logged;
+
     QString snapped;
     QPoint dragPos;
 
     bool isClosed;
 
-    QSettings *accountsSettings;
+
 
     QAction *minimizeAction;
     QAction *maximizeAction;
@@ -74,8 +74,8 @@ private slots:
 
 
     void chatWindowClosed(chatWindow *);
-    void login();
-
+public slots:
+    void presenceReceived(QString clientId,QString fromJid,QString fromBareJid,int status,QString statusText);
 };
 
 #endif // USERLIST_H

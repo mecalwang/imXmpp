@@ -4,31 +4,8 @@ userList::userList(QWidget *parent) :
     QWidget(parent)
 {
 
-    this->logged=false;
     this->setGeometry(0,0,200,300);
 
-    this->accountsSettings = new QSettings("./accounts.ini",QSettings::IniFormat);
-
-    /*lblLogin = new QLabel(this);
-    lblLogin->setText(tr("Имя:"));
-    lblLogin->setGeometry(5,50,65,30);
-    lblLogin->show();
-    lblPass = new QLabel(this);
-    lblPass->setText(tr("Пароль:"));
-    lblPass->setGeometry(5,85,65,30);
-    lblPass->show();
-    txtLogin = new QLineEdit(this);
-    txtLogin->setGeometry(65,50,130,30);
-    txtLogin->show();
-    txtPass = new QLineEdit(this);
-    txtPass->setEchoMode(QLineEdit::Password);
-    txtPass->setGeometry(65,85,130,30);
-
-    txtPass->show();
-    pbtLogin = new QPushButton(this);
-    pbtLogin->setGeometry(5,120,190,30);
-    pbtLogin->show();
-    connect(pbtLogin,SIGNAL(released()),this,SLOT(login()));*/
 
     createActions();
     createTrayIcon();
@@ -38,33 +15,11 @@ userList::userList(QWidget *parent) :
     list=new userListWidget(this);
     list->setGeometry(5,5,this->width()-10,this->height()-10);
     connect(list,SIGNAL(openChatWindow(QString,QString)),this,SLOT(openChatWindow(QString,QString)));
-    list->hide();
-    this->login();
+    list->show();
     //client->connectToServer("vkmessenger.com","id2615106","1dac052","vk.com");
     //client->connectToServer("talk.google.com","lezhoev","07493957","gmail.com");
 }
-void userList::login(){
-    /*QString login=this->txtLogin->text();
-    QString pass=this->txtPass->text();*/
-    /*int count=this->accountsSettings->value("count").toInt();
-    QString login;
-    QString pass;
-    QString domain;
-    QString host;
-    QString ind;
-    for (int i=0;i<count;i++){
 
-        xmppClient *client = new xmppClient;
-        ind=ind.setNum(i);
-        login=this->accountsSettings->value(ind+"/login").toString();
-        pass=this->accountsSettings->value(ind+"/pass").toString();
-        domain=this->accountsSettings->value(ind+"/domain").toString();
-        host=this->accountsSettings->value(ind+"/host").toString();
-        qDebug()<<login;
-        client->connectToServer(host,login,pass,domain);
-    }
-*/
-}
 void userList::createActions()
 {
     minimizeAction = new QAction(tr("Скрыть"), this);
@@ -171,10 +126,7 @@ bool userList::event(QEvent *e)
 }
 void userList::resizeEvent ( QResizeEvent * event )
 {
-    if (this->logged){
         this->list->setGeometry(5,5,this->width()-10,this->height()-10);
-    }
-
 }
 void userList::closeEvent(QCloseEvent *event){
     this->closeForm();
@@ -259,4 +211,7 @@ void userList::openChatWindow(QString name,QString jid){
 void userList::chatWindowClosed(chatWindow *window){
     //delete window;
     qDebug("chatWindowDestroyed!!!");
+}
+void userList::presenceReceived(QString clientId,QString fromJid,QString fromBareJid,int status,QString statusText){
+    list->append(fromBareJid,fromBareJid);
 }

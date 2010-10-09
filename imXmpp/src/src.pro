@@ -31,3 +31,6 @@ CONFIG(debug, debug|release) {
  } else {
     LIBS += -L../qxmpp/release -lQXmppClient
  }
+
+RESOURCES += \
+    resourses.qrc
