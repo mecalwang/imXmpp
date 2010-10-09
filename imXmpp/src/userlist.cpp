@@ -1,5 +1,4 @@
 #include "userlist.h"
-#include "ui_userlist.h"
 
 userList::userList(QWidget *parent) :
     QWidget(parent)
@@ -47,7 +46,7 @@ userList::userList(QWidget *parent) :
 void userList::login(){
     /*QString login=this->txtLogin->text();
     QString pass=this->txtPass->text();*/
-    int count=this->accountsSettings->value("count").toInt();
+    /*int count=this->accountsSettings->value("count").toInt();
     QString login;
     QString pass;
     QString domain;
@@ -64,7 +63,7 @@ void userList::login(){
         qDebug()<<login;
         client->connectToServer(host,login,pass,domain);
     }
-
+*/
 }
 void userList::createActions()
 {

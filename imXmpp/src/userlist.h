@@ -13,8 +13,8 @@
 #include "QListWidgetItem"
 #include "userlistitem.h"
 #include "userlistwidget.h"
-#include "xmppclient.h"
 
+#include <QApplication>
 
 #include <QSettings>
 

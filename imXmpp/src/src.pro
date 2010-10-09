@@ -14,7 +14,8 @@ SOURCES += main.cpp \
     userlistitem.cpp \
     userlistwidget.cpp \
     textmessageedit.cpp \
-    accountsmanager.cpp
+    accountsmanager.cpp \
+    connection.cpp
 HEADERS += \
     imxmpp.h \
     userlist.h \
@@ -22,4 +23,11 @@ HEADERS += \
     userlistitem.h \
     userlistwidget.h \
     textmessageedit.h \
-    accountsmanager.h
+    accountsmanager.h \
+    connection.h
+INCLUDEPATH += ../qxmpp
+CONFIG(debug, debug|release) {
+    LIBS += -L../qxmpp/debug -lQXmppClient_d
+ } else {
+    LIBS += -L../qxmpp/release -lQXmppClient
+ }
