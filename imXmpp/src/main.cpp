@@ -1,5 +1,6 @@
 #include <QtGui/QApplication>
 #include <QTextCodec>
+#include "imxmpp.h"
 
 int main(int argc, char *argv[])
 {
@@ -10,5 +11,6 @@ int main(int argc, char *argv[])
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF8"));
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF8"));
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF8"));
+    imXmpp core;
     return a.exec();
 }

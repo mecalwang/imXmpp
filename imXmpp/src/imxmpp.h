@@ -2,6 +2,9 @@
 #define IMXMPP_H
 
 #include <QObject>
+#include "userlist.h"
+#include "chatwindow.h"
+#include "accounsmanager.h"
 
 class imXmpp : public QObject
 {
