@@ -7,7 +7,7 @@
 #include <QLineEdit>
 #include <QSystemTrayIcon>
 #include <QMenu>
-
+#include <QHash>
 #include <QMouseEvent>
 #include "chatwindow.h"
 #include "QListWidgetItem"
@@ -75,6 +75,8 @@ private slots:
 
     void chatWindowClosed(chatWindow *);
 public slots:
+    void rosterResieved(QString clientId, QHash<QString,QString> roster);
+    void vCardReseived(QString clientId,QString fromBareJid,QImage photo);
     void presenceReceived(QString clientId,QString fromJid,QString fromBareJid,int status,QString statusText);
 };
 

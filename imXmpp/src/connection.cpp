@@ -92,6 +92,7 @@ void connection::connected(){
 
     this->clientId=xmppClient->getConfiguration().getJid();
     emit connected(clientId);
+    this->setObjectName(clientId);
     qDebug()<<clientId<<" connected!";
     /*this->logged=true;
     list->show();*/
@@ -105,21 +106,21 @@ void connection::error(){
 }
 void connection::rosterResieved(){
     qDebug()<<this->clientId<<" rosterResieved!";
-/*
+    QHash<QString,QString> roster;
+
    // rosterManager= client->rosterManager();
-    QStringList bareJids = client->rosterManager().getRosterBareJids();
+    QStringList bareJids = xmppClient->rosterManager().getRosterBareJids();
     QString name;
     for (int i=0;i<bareJids.size();i++){
-        qDebug()<<bareJids.at(i);
-        QXmppRosterIq::Item rosterIq = client->rosterManager().getRosterEntry(bareJids.at(i));
+        QXmppRosterIq::Item rosterIq = xmppClient->rosterManager().getRosterEntry(bareJids.at(i));
         if (rosterIq.getName()==""){
             name=rosterIq.getBareJid();
         } else {
             name=rosterIq.getName();
         }
-        list->append(rosterIq.getBareJid(),name);
-
-    }*/
+        roster[rosterIq.getBareJid()]=name;
+    }
+    emit rosterResieved(this->clientId,roster);
 }
 void connection::presenceReceived(const QXmppPresence & presence){
     qDebug()<<this->clientId<<" presenceResieved!";
@@ -134,17 +135,22 @@ void connection::presenceReceived(const QXmppPresence & presence){
     this->list->setStatus(jid,presence.getType());
     this->list->setStatusText(jid,presence.getStatus().getStatusText());*/
     emit presenceReceived(this->clientId,fromJid,fromBareJid,status,statusText);
+    xmppClient->vCardManager().requestVCard(fromBareJid);
 }
 void connection::messageReceived(const QXmppMessage & message){
     qDebug()<<this->clientId<<" messageReceived!";
         QString fromJid=message.getFrom();
         QString fromBareJid=message.getFrom();
+        fromBareJid=fromBareJid.left(fromBareJid.indexOf("/"));
         QString body=message.getBody();
         emit this->messageReceived(this->clientId,fromJid,fromBareJid,body);
 
 }
 void connection::vCardReceived(QXmppVCard vCard){
     qDebug()<<this->clientId<<" vCardReceived!";
+    QImage photo = vCard.getPhotoAsImage();
+    QString fromBareJid = vCard.getFrom();
+    emit vCardReseived(this->clientId,fromBareJid,photo);
     /*QString jid = vCard.getFrom();
     QImage photo = vCard.getPhotoAsImage();
     list->setPhoto(jid,photo);*/
@@ -158,3 +164,11 @@ void connection::clientVCardReceived(){
     //this->client->sendMessage(to,msg);
     qDebug("Message sended!!!");
 }*/
+QString connection::getNameByBareJid(QString bareJid){
+    return xmppClient->rosterManager().getRosterEntry(bareJid).getName();
+}
+void connection::sendMessage(QString bareJid, QString body){
+    qDebug()<<"sendMessage to "<<bareJid;
+    bareJid=bareJid.left(bareJid.indexOf("/"));
+    xmppClient->sendMessage(bareJid,body);
+}

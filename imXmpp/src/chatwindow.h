@@ -16,21 +16,22 @@ class chatWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    explicit chatWindow(QString,QString,QWidget *parent = 0);
+    explicit chatWindow(QString clientId,QString name,QString bareJid,QWidget *parent = 0);
 signals:
-    void sendMessage(QString,QString);
+    void sendMessage(QString clientId,QString bareJid,QString body);
     void closed(chatWindow *);
 private:
     bool event(QEvent *e);
     QString name;
     QString jid;
+    QString clientId;
     QLabel *lblName;
     QTextEdit *txtChat;
     textMessageEdit *txtMessage;
     QPushButton *btnSend;
     void resizeEvent(QResizeEvent *);
 public slots:
-    void messageReceived(const QXmppMessage &);
+    void messageReceived(QString clientId, QString fromJid, QString fromBareJid, QString body);
 private slots:
     void btnSendClicked();
 };

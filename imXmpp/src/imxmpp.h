@@ -16,11 +16,15 @@ private:
     userList *userListForm;
     chatWindow *chatForm;
     accountsManager *acManager;
+    QVector<chatWindow *> chatWindows;
 
 signals:
 
 public slots:
 
+private slots:
+    void messageReceived(QString clientId,QString fromJid,QString fromBareJid,QString body);
+    void sendMessage(QString clientId,QString bareJid,QString body);
 };
 
 #endif // IMXMPP_H

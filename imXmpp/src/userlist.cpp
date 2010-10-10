@@ -200,18 +200,30 @@ void userList::focusOutEvent(QFocusEvent *event){
 
 
 void userList::openChatWindow(QString name,QString jid){
-    chatWindow *chtW = new chatWindow(name,jid,this);
+    /*chatWindow *chtW = new chatWindow(name,jid,this);
     chtW->setAttribute(Qt::WA_DeleteOnClose);
     chtW->setObjectName(jid);
     connect(chtW,SIGNAL(sendMessage(QString,QString)),this,SLOT(sendMessage(QString,QString)));
     connect(chtW,SIGNAL(closed(chatWindow *)),this,SLOT(chatWindowClosed(chatWindow *)));
     chtW->show();
-    qDebug()<<jid;
+    qDebug()<<jid;*/
 }
 void userList::chatWindowClosed(chatWindow *window){
     //delete window;
     qDebug("chatWindowDestroyed!!!");
 }
 void userList::presenceReceived(QString clientId,QString fromJid,QString fromBareJid,int status,QString statusText){
-    list->append(fromBareJid,fromBareJid);
+    list->setStatus(fromBareJid,status);
+    list->setStatusText(fromBareJid,statusText);
+}
+void userList::rosterResieved(QString clientId, QHash<QString, QString> roster){
+    QStringList bareJidList = roster.keys();
+    for (int i=0;i<bareJidList.count();i++){
+        QString name = roster[bareJidList.at(i)];
+        QString bareJid = bareJidList.at(i);
+        list->append(bareJid,name);
+    }
+}
+void userList::vCardReseived(QString clientId, QString fromBareJid, QImage photo){
+    list->setPhoto(fromBareJid,photo);
 }

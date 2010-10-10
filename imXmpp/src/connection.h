@@ -18,6 +18,7 @@
 #include <QXmppIq.h>
 
 #include <QList>
+#include <QImage>
 #include <QHash>
 class connection : public QObject
 {
@@ -26,6 +27,7 @@ public:
     explicit connection(QObject *parent = 0);
     void connectToServer(int accountId);
     void disconnect();
+    QString getNameByBareJid(QString bareJid);
 private:
     QXmppClient *xmppClient;
     QString clientId;
@@ -37,9 +39,10 @@ signals:
     void connected(QString clientId);
     void disconnected(QString clientId);
     void error(QString clientId);
-    void rosterResieved(QString clientId);
+    void rosterResieved(QString clientId, QHash<QString,QString> roster);
     void presenceReceived(QString clientId,QString fromJid,QString fromBareJid,int status,QString statusText);
     void messageReceived(QString clientId,QString fromJid,QString fromBareJid,QString body);
+    void vCardReseived(QString clientId,QString fromBareJid,QImage photo);
 public slots:
     void connected();
     void disconnected();
@@ -47,7 +50,7 @@ public slots:
     void rosterResieved();
     void presenceReceived(const QXmppPresence &);
     void messageReceived(const QXmppMessage &);
-
+    void sendMessage(QString bareJid,QString body);
 
     void error(QXmppClient::Error);
     void clientVCardReceived();

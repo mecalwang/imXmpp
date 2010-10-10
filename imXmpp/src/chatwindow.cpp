@@ -1,10 +1,11 @@
 #include "chatwindow.h"
 
-chatWindow::chatWindow(QString name,QString jid,QWidget *parent) :
+chatWindow::chatWindow(QString clientId,QString name,QString bareJid,QWidget *parent) :
     QMainWindow(parent)
 {
     this->name=name;
-    this->jid=jid;
+    this->jid=bareJid;
+    this->clientId=clientId;
     this->setWindowTitle(name);
     this->setGeometry(0,0,250,350);
     lblName=new QLabel(this);
@@ -29,14 +30,14 @@ chatWindow::chatWindow(QString name,QString jid,QWidget *parent) :
 void chatWindow::btnSendClicked(){
     if (txtMessage->toPlainText()!=""){
         QTime time=QTime::currentTime();
-        emit sendMessage(this->jid,txtMessage->toPlainText());
+        emit sendMessage(this->clientId,this->jid,txtMessage->toPlainText());
         txtChat->append("<font color=\"blue\"><b>("+time.toString("HH:mm:ss")+")ME: </b></font>"+txtMessage->toPlainText());
         txtMessage->setText("");
     }
 }
-void chatWindow::messageReceived(const QXmppMessage & message){
+void chatWindow::messageReceived(QString clientId, QString fromJid, QString fromBareJid, QString body){
     QTime time=QTime::currentTime();
-    txtChat->append("<font color=\"red\"><b>("+time.toString("HH:mm:ss")+")"+this->name+": </b></font>"+message.body());
+    txtChat->append("<font color=\"red\"><b>("+time.toString("HH:mm:ss")+")"+this->name+": </b></font>"+body);
 }
 bool chatWindow::event(QEvent *e)
 {
