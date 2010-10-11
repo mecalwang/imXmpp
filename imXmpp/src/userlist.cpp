@@ -14,7 +14,7 @@ userList::userList(QWidget *parent) :
 
     list=new userListWidget(this);
     list->setGeometry(5,5,this->width()-10,this->height()-10);
-    connect(list,SIGNAL(openChatWindow(QString,QString)),this,SLOT(openChatWindow(QString,QString)));
+    connect(list,SIGNAL(openChatWindow(QString,QString,QString)),this,SLOT(openChatWindow(QString,QString,QString)));
     list->show();
     //client->connectToServer("vkmessenger.com","id2615106","1dac052","vk.com");
     //client->connectToServer("talk.google.com","lezhoev","07493957","gmail.com");
@@ -199,18 +199,8 @@ void userList::focusOutEvent(QFocusEvent *event){
 }
 
 
-void userList::openChatWindow(QString name,QString jid){
-    /*chatWindow *chtW = new chatWindow(name,jid,this);
-    chtW->setAttribute(Qt::WA_DeleteOnClose);
-    chtW->setObjectName(jid);
-    connect(chtW,SIGNAL(sendMessage(QString,QString)),this,SLOT(sendMessage(QString,QString)));
-    connect(chtW,SIGNAL(closed(chatWindow *)),this,SLOT(chatWindowClosed(chatWindow *)));
-    chtW->show();
-    qDebug()<<jid;*/
-}
-void userList::chatWindowClosed(chatWindow *window){
-    //delete window;
-    qDebug("chatWindowDestroyed!!!");
+void userList::openChatWindow(QString clientId,QString name,QString jid){
+    emit sigOpenChatWindow(clientId,name,jid);
 }
 void userList::presenceReceived(QString clientId,QString fromJid,QString fromBareJid,int status,QString statusText){
     list->setStatus(fromBareJid,status);
@@ -221,7 +211,7 @@ void userList::rosterResieved(QString clientId, QHash<QString, QString> roster){
     for (int i=0;i<bareJidList.count();i++){
         QString name = roster[bareJidList.at(i)];
         QString bareJid = bareJidList.at(i);
-        list->append(bareJid,name);
+        list->append(clientId,bareJid,name);
     }
 }
 void userList::vCardReseived(QString clientId, QString fromBareJid, QImage photo){

@@ -25,6 +25,8 @@ public slots:
 private slots:
     void messageReceived(QString clientId,QString fromJid,QString fromBareJid,QString body);
     void sendMessage(QString clientId,QString bareJid,QString body);
+    void chatWindowClosed(QString jid);
+    void openChatWindow(QString clientId,QString name,QString jid);
 };
 
 #endif // IMXMPP_H

@@ -47,3 +47,7 @@ void chatWindow::resizeEvent(QResizeEvent *event){
     txtChat->setGeometry(5,45,this->width()-10,this->height()-txtMessage->height()-60);
     txtMessage->setGeometry(5,txtChat->height()+5+45,this->width()-10,txtMessage->height());
 }
+void chatWindow::closeEvent(QCloseEvent *e){
+    emit chatWindowClosed(this->jid);
+    e->accept();
+}

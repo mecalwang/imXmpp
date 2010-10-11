@@ -11,7 +11,7 @@ class userListWidget : public QWidget
 public:
     explicit userListWidget(QWidget *parent = 0);
     void append(userListItem *);
-    void append(QString bareJid,QString name);
+    void append(QString clientId,QString bareJid,QString name);
     int findByJid(QString);
     void setStatus(QString jid, int status);
     void setStatusText(QString jid, QString statusText);
@@ -25,9 +25,9 @@ private:
     void redrawList();
     bool showOffline;
 signals:
-    void openChatWindow(QString,QString);
+    void openChatWindow(QString clientId,QString name,QString jid);
 public slots:
-    void itemDoubleClicked(QString,QString);
+    void itemDoubleClicked(QString clientId,QString name,QString jid);
 
 };
 

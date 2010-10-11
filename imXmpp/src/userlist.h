@@ -65,15 +65,16 @@ private:
     userListWidget *list;
     void resizeEvent ( QResizeEvent * event );
     void closeEvent(QCloseEvent *);
+signals:
+    void sigOpenChatWindow(QString clientId,QString name,QString jid);
 private slots:
     void iconActivated(QSystemTrayIcon::ActivationReason reason);
     void showForm();
     void closeForm();
     void quit();
-    void openChatWindow(QString,QString);
+    void openChatWindow(QString clientId,QString name,QString jid);
 
 
-    void chatWindowClosed(chatWindow *);
 public slots:
     void rosterResieved(QString clientId, QHash<QString,QString> roster);
     void vCardReseived(QString clientId,QString fromBareJid,QImage photo);

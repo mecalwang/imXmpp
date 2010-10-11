@@ -4,6 +4,7 @@ imXmpp::imXmpp(QObject *parent) :
     QObject(parent)
 {
     userListForm = new userList;
+    connect(userListForm,SIGNAL(sigOpenChatWindow(QString,QString,QString)),this,SLOT(openChatWindow(QString,QString,QString)));
     userListForm->show();
     //chatForm = new chatWindow;
     acManager = new accountsManager;
@@ -44,6 +45,7 @@ void imXmpp::messageReceived(QString clientId, QString fromJid, QString fromBare
             chtW->setAttribute(Qt::WA_DeleteOnClose);
             chtW->setObjectName(fromBareJid);
             connect(chtW,SIGNAL(sendMessage(QString,QString,QString)),this,SLOT(sendMessage(QString,QString,QString)));
+            connect(chtW,SIGNAL(chatWindowClosed(QString)),this,SLOT(chatWindowClosed(QString)));
             chtW->show();
             chatWindows.append(chtW);
             chtW->messageReceived(clientId, fromJid, fromBareJid, body);
@@ -53,4 +55,35 @@ void imXmpp::messageReceived(QString clientId, QString fromJid, QString fromBare
 void imXmpp::sendMessage(QString clientId,QString bareJid,QString body){
     connection *c = this->findChild<connection *>(clientId);
     c->sendMessage(bareJid,body);
+}
+void imXmpp::chatWindowClosed(QString jid){
+    for (int i=0;i<this->chatWindows.count();i++){
+        if (this->chatWindows[i]->objectName()==jid){
+            this->chatWindows.remove(i);
+            break;
+        }
+    }
+}
+void imXmpp::openChatWindow(QString clientId,QString name,QString jid){
+    bool founded;
+    for (int i=0;i<this->chatWindows.count();i++){
+        if (this->chatWindows[i]->objectName()==jid){
+            qDebug("Window founded!");
+            founded=true;
+            break;
+        }
+    }
+    if (!founded){
+        qDebug("Creating new window!");
+        if (name==""){
+            name=jid;
+        }
+        chatWindow *chtW = new chatWindow(clientId,name,jid);
+        chtW->setAttribute(Qt::WA_DeleteOnClose);
+        chtW->setObjectName(jid);
+        connect(chtW,SIGNAL(sendMessage(QString,QString,QString)),this,SLOT(sendMessage(QString,QString,QString)));
+        connect(chtW,SIGNAL(chatWindowClosed(QString)),this,SLOT(chatWindowClosed(QString)));
+        chtW->show();
+        chatWindows.append(chtW);
+    }
 }

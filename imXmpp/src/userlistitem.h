@@ -18,17 +18,20 @@ public:
     void setStatus(int);
     void setStatusText(QString);
     void setPhoto(QImage);
+    void setClientId(QString);
     QString getName();
     QString getJid();
     QImage getPhoto();
     int getStatus();
     QString getStatusText();
+    QString getClientId();
 private:
     QString name;
     QString jid;
     int status;
     QImage photo;
     QString statusText;
+    QString clientId;
 
     QLabel *lblName;
     QLabel *lblPhoto;
@@ -37,7 +40,7 @@ private:
     void resizeEvent(QResizeEvent *);
 signals:
     void released(QString);
-    void doubleClicked(QString,QString);
+    void doubleClicked(QString,QString,QString);
     void mouseIn();
     void mouseOut();
     void pressed();

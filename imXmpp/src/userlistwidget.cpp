@@ -15,14 +15,15 @@ userListWidget::userListWidget(QWidget *parent) :
 void userListWidget::append(userListItem *item){
 
 }
-void userListWidget::append(QString bareJid,QString name){
+void userListWidget::append(QString clientId,QString bareJid,QString name){
     userListItem *item=new userListItem(this->mainFrame);
     item->setJid(bareJid);
     item->setName(name);
     item->setStatus(0);
+    item->setClientId(clientId);
     item->setObjectName(bareJid);
     //item->show();
-    connect(item,SIGNAL(doubleClicked(QString,QString)),this,SLOT(itemDoubleClicked(QString,QString)));
+    connect(item,SIGNAL(doubleClicked(QString,QString,QString)),this,SLOT(itemDoubleClicked(QString,QString,QString)));
     userListItems.append(item);
     this->redrawList();
 }
@@ -68,8 +69,9 @@ void userListWidget::setPhoto(QString jid,QImage photo){
     }
     this->redrawList();
 }
-void userListWidget::itemDoubleClicked(QString name,QString jid){
-    emit openChatWindow(name,jid);
+void userListWidget::itemDoubleClicked(QString clientId,QString name,QString jid){
+
+    emit openChatWindow(clientId,name,jid);
 }
 void userListWidget::setShowOffline(bool show){
     this->showOffline=show;

@@ -19,7 +19,7 @@ public:
     explicit chatWindow(QString clientId,QString name,QString bareJid,QWidget *parent = 0);
 signals:
     void sendMessage(QString clientId,QString bareJid,QString body);
-    void closed(chatWindow *);
+    void chatWindowClosed(QString jid);
 private:
     bool event(QEvent *e);
     QString name;
@@ -30,6 +30,7 @@ private:
     textMessageEdit *txtMessage;
     QPushButton *btnSend;
     void resizeEvent(QResizeEvent *);
+    void closeEvent(QCloseEvent *);
 public slots:
     void messageReceived(QString clientId, QString fromJid, QString fromBareJid, QString body);
 private slots:

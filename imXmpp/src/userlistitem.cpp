@@ -39,6 +39,9 @@ void userListItem::setStatusText(QString statusText){
     this->statusText=statusText;
     this->lblStatusText->setText(statusText);
 }
+void userListItem::setClientId(QString id){
+    this->clientId=id;
+}
 
 bool userListItem::event(QEvent *e)
 {
@@ -47,7 +50,7 @@ bool userListItem::event(QEvent *e)
     } else if (e->type()==10){
         emit mouseIn();
     } else if (e->type()==4){
-        emit doubleClicked(this->name,this->jid);
+        emit doubleClicked(this->clientId,this->name,this->jid);
     } else if(e->type()==11) {
         emit mouseOut();
     } else if (e->type()==2){
@@ -72,6 +75,9 @@ QImage userListItem::getPhoto(){
 }
 QString userListItem::getStatusText(){
     return this->statusText;
+}
+QString userListItem::getClientId(){
+    return this->clientId;
 }
 
 void userListItem::resizeEvent(QResizeEvent *event){
