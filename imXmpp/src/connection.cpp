@@ -7,6 +7,7 @@ connection::connection(QObject *parent) :
 }
 void connection::connectToServer(int accountId){
     QSettings *settings = new QSettings("./accounts.ini",QSettings::IniFormat);
+    crypting cry;
     QString id;
     id.setNum(accountId);
     QString protocol = settings->value(id+"/protocol").toString();
@@ -16,8 +17,8 @@ void connection::connectToServer(int accountId){
     QString domain;
     qDebug()<<"Protocol is: "<<protocol;
     if (protocol=="gtalk"){
-        login=settings->value(accountId+"/login").toString();;
-        pass=settings->value(accountId+"/pass").toString();;
+        login=settings->value(id+"/login").toString();;
+        pass=cry.decrypt(settings->value(id+"/pass").toString());
         host="talk.google.com";
         domain="gmail.com";
         xmppClient = new QXmppClient(this);
@@ -34,11 +35,10 @@ void connection::connectToServer(int accountId){
         connect(vCardManager,SIGNAL(vCardReceived(QXmppVCard)),this,SLOT(vCardReceived(QXmppVCard)));
         connect(xmppClient,SIGNAL(discoveryIqReceived(QXmppDiscoveryIq)),this,SLOT(connected()));
         connect(xmppClient,SIGNAL(iqReceived(QXmppIq)),this,SLOT(connected()));
-        //xmppClient->connectToServer(host,login,pass,domain);
-        xmppClient->connectToServer("talk.google.com","lezhoev","07493957","gmail.com");
+        xmppClient->connectToServer(host,login,pass,domain);
     } else if (protocol=="vk") {
-        login=settings->value(accountId+"/login").toString();
-        pass=settings->value(accountId+"/pass").toString();
+        login=settings->value(id+"/login").toString();
+        pass=cry.decrypt(settings->value(id+"/pass").toString());
         host="vkmessenger.com";
         domain="vk.com";
         xmppClient = new QXmppClient(this);
@@ -55,15 +55,14 @@ void connection::connectToServer(int accountId){
         connect(vCardManager,SIGNAL(vCardReceived(QXmppVCard)),this,SLOT(vCardReceived(QXmppVCard)));
         connect(xmppClient,SIGNAL(discoveryIqReceived(QXmppDiscoveryIq)),this,SLOT(connected()));
         connect(xmppClient,SIGNAL(iqReceived(QXmppIq)),this,SLOT(connected()));
-        //xmppClient->connectToServer(host,login,pass,domain);
-        xmppClient->connectToServer("vkmessenger.com","id2615106","1dac052","vk.com");
+        xmppClient->connectToServer(host,login,pass,domain);
     } else if (protocol=="icq") {
 
     } else {
-        login=settings->value(accountId+"/login").toString();
-        pass=settings->value(accountId+"/pass").toString();
-        host=settings->value(accountId+"/host").toString();
-        domain=settings->value(accountId+"/domain").toString();
+        login=settings->value(id+"/login").toString();
+        pass=settings->value(id+"/pass").toString();
+        host=settings->value(id+"/host").toString();
+        domain=settings->value(id+"/domain").toString();
         xmppClient = new QXmppClient(this);
         //QXmppLogger::getLogger()->setLoggingType(QXmppLogger::STDOUT);
         QXmppRosterManager *rosterManager = &xmppClient->rosterManager();

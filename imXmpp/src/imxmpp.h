@@ -6,6 +6,7 @@
 #include "chatwindow.h"
 #include "accountsmanager.h"
 #include "connection.h"
+#include "accountslistform.h"
 
 class imXmpp : public QObject
 {
@@ -27,6 +28,7 @@ private slots:
     void sendMessage(QString clientId,QString bareJid,QString body);
     void chatWindowClosed(QString jid);
     void openChatWindow(QString clientId,QString name,QString jid);
+    void openAccountsListForm();
 };
 
 #endif // IMXMPP_H

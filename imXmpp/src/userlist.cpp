@@ -13,7 +13,7 @@ userList::userList(QWidget *parent) :
             this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
 
     list=new userListWidget(this);
-    list->setGeometry(5,5,this->width()-10,this->height()-10);
+    list->setGeometry(0,0,this->width(),this->height());
     connect(list,SIGNAL(openChatWindow(QString,QString,QString)),this,SLOT(openChatWindow(QString,QString,QString)));
     list->show();
     //client->connectToServer("vkmessenger.com","id2615106","1dac052","vk.com");
@@ -39,6 +39,9 @@ void userList::createActions()
 
     aboutAction = new QAction(tr("О программе"), this);
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(showAboutForm()));
+
+    accountsListAction = new QAction(tr("Учетные записи"), this);
+    connect(accountsListAction, SIGNAL(triggered()), this, SLOT(openAccountsListForm()));
 }
 void userList::createTrayIcon()
 {
@@ -48,6 +51,7 @@ void userList::createTrayIcon()
     trayIconMenu->addAction(restoreAction);
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(settingsFormAction);
+    trayIconMenu->addAction(accountsListAction);
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(aboutAction);
     trayIconMenu->addSeparator();
@@ -99,7 +103,10 @@ void userList::closeForm(){
 void userList::quit(){
     qApp->exit();
 }
-
+void userList::openAccountsListForm(){
+    qDebug()<<"openAccountsListForm";
+    emit sigOpenAccountsListForm();
+}
 
 
 
@@ -126,7 +133,7 @@ bool userList::event(QEvent *e)
 }
 void userList::resizeEvent ( QResizeEvent * event )
 {
-        this->list->setGeometry(5,5,this->width()-10,this->height()-10);
+        this->list->setGeometry(0,0,this->width(),this->height());
 }
 void userList::closeEvent(QCloseEvent *event){
     this->closeForm();

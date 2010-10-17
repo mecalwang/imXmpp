@@ -17,6 +17,8 @@
 #include <QXmppDiscoveryIq.h>
 #include <QXmppIq.h>
 
+#include "crypt.h"
+
 #include <QList>
 #include <QImage>
 #include <QHash>

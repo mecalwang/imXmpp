@@ -15,7 +15,10 @@ SOURCES += main.cpp \
     userlistwidget.cpp \
     textmessageedit.cpp \
     accountsmanager.cpp \
-    connection.cpp
+    connection.cpp \
+    accountslistform.cpp \
+    crypt.cpp \
+    accountaddform.cpp
 HEADERS += \
     imxmpp.h \
     userlist.h \
@@ -24,7 +27,10 @@ HEADERS += \
     userlistwidget.h \
     textmessageedit.h \
     accountsmanager.h \
-    connection.h
+    connection.h \
+    accountslistform.h \
+    crypt.h \
+    accountaddform.h
 INCLUDEPATH += ../qxmpp
 CONFIG(debug, debug|release) {
     LIBS += -L../qxmpp/debug -lQXmppClient_d
@@ -34,3 +40,7 @@ CONFIG(debug, debug|release) {
 
 RESOURCES += \
     resourses.qrc
+
+FORMS += \
+    accountslistform.ui \
+    accountaddform.ui

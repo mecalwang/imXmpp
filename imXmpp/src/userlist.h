@@ -49,6 +49,7 @@ private:
     QAction *quitAction;
     QAction *settingsFormAction;
     QAction *aboutAction;
+    QAction *accountsListAction;
 
     QSystemTrayIcon *trayIcon;
     QMenu *trayIconMenu;
@@ -67,13 +68,14 @@ private:
     void closeEvent(QCloseEvent *);
 signals:
     void sigOpenChatWindow(QString clientId,QString name,QString jid);
+    void sigOpenAccountsListForm();
 private slots:
     void iconActivated(QSystemTrayIcon::ActivationReason reason);
     void showForm();
     void closeForm();
     void quit();
     void openChatWindow(QString clientId,QString name,QString jid);
-
+    void openAccountsListForm();
 
 public slots:
     void rosterResieved(QString clientId, QHash<QString,QString> roster);

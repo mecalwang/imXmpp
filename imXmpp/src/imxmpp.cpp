@@ -5,6 +5,7 @@ imXmpp::imXmpp(QObject *parent) :
 {
     userListForm = new userList;
     connect(userListForm,SIGNAL(sigOpenChatWindow(QString,QString,QString)),this,SLOT(openChatWindow(QString,QString,QString)));
+    connect(userListForm,SIGNAL(sigOpenAccountsListForm()),this,SLOT(openAccountsListForm()));
     userListForm->show();
     //chatForm = new chatWindow;
     acManager = new accountsManager;
@@ -86,4 +87,9 @@ void imXmpp::openChatWindow(QString clientId,QString name,QString jid){
         chtW->show();
         chatWindows.append(chtW);
     }
+}
+void imXmpp::openAccountsListForm(){
+    accountsListForm *alf = new accountsListForm;
+    alf->setAttribute(Qt::WA_DeleteOnClose);
+    alf->show();
 }
